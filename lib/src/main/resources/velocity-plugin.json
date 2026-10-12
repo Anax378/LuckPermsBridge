@@ -1,0 +1,15 @@
+{
+  "id": "luckperms-bridge",
+  "main": "org.anax.luckPermsBridge.luckPermsBridge",
+  "name": "LuckPerms Bridge",
+  "version": "1.0.0",
+  "description": "Provides a bridge via a TCP connection to send certain commands",
+  "url": "https://github.com/Anax378/LuckPermsBridge",
+  "authors": ["Anax378"],
+  "dependencies": [
+    {
+      "id": "luckperms",
+      "optional": false
+    }
+  ]
+}
