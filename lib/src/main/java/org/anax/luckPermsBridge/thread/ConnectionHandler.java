@@ -60,6 +60,7 @@ public class ConnectionHandler{
 		finally{
 			try{
 				response.writeOnOutputstream(socket.getOutputStream());
+				socket.getOutputStream().write(';');
 			}catch(IOException e){
 				logger.warn("could not write response: " + e.toString());
 			}finally{
