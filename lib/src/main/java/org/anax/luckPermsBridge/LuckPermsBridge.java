@@ -5,6 +5,8 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
 
+import net.luckperms.api.model.user.User;
+
 import java.nio.file.Path;
 
 import org.slf4j.Logger;

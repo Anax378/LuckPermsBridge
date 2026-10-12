@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
 
-import org.anax.luckPermsBridge.command.BadCommandException;
+import org.anax.luckPermsBridge.command.CommandException;
 import org.anax.luckPermsBridge.command.Command;
 import org.anax.luckPermsBridge.command.CommandHandler;
 import org.anax.luckPermsBridge.config.Config;
@@ -53,7 +53,7 @@ public class ConnectionHandler{
 			response = Response.TOO_OLD_ERROR;
 		} catch (InvalidHashException e) {
 			response = Response.INVALID_HASH_ERROR;
-		} catch (BadCommandException e) {
+		} catch (CommandException e) {
 			response = Response.COMMAND_ERROR;
 			logger.warn(e.toString());
 		}

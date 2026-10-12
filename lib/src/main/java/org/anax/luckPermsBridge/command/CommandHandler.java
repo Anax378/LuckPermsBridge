@@ -9,7 +9,7 @@ public class CommandHandler{
 		this.controller = controller;
 	}
 
-	public void handle(Command command) throws BadCommandException{
+	public void handle(Command command) throws CommandException{
 		if(command.action().equals("SET-ROLE")){
 			validateArgsLen(2, command);
 			String role = command.args()[0];
@@ -39,20 +39,20 @@ public class CommandHandler{
 			UUID uuid = parseUUID(command.args()[0]);
 			controller.setPlayerRoleToDefault(uuid);
 		}
-		throw new BadCommandException("unknown action: " + command.action());
+		throw new CommandException("unknown action: " + command.action());
 	}
 
-	private void validateArgsLen(int len, Command command) throws BadCommandException{
+	private void validateArgsLen(int len, Command command) throws CommandException{
 		if(command.args().length != len){
-			throw new BadCommandException("expected "+len+" arguments, but got "+command.args().length);
+			throw new CommandException("expected "+len+" arguments, but got "+command.args().length);
 		}
 	}
 
-	private UUID parseUUID(String uuid) throws BadCommandException{
+	private UUID parseUUID(String uuid) throws CommandException{
 		try{
 			return UUID.fromString(uuid);
 		}catch(IllegalArgumentException e){
-			throw new BadCommandException("uuid has invalid format", e);
+			throw new CommandException("uuid has invalid format", e);
 		}
 	}
 }
