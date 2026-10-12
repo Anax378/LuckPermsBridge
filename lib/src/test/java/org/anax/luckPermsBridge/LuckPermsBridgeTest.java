@@ -35,7 +35,7 @@ public class LuckPermsBridgeTest {
 	public void TestHandler(){
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		Socket sock = createTestSocket("bad", os);
-		Config config = new Config(0, "secret");
+		Config config = new Config(0, 1028*1028, 10, 10000, "secret");
 		CommandHandler commandHandler = new CommandHandler(new TestServerController());
 		Logger logger = LoggerFactory.getLogger("TEST");
 		ConnectionHandler handler = new ConnectionHandler(sock, config, commandHandler, logger);
