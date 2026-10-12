@@ -1,0 +1,13 @@
+# Luck Perms Bridge config
+
+port=none
+# maximum bytes the parser will parse
+max-request-length=1056784
+max-workers=10
+# in milliseconds
+max-request-age=300000
+
+# this should be at least 256 bytes long and securely random !!!
+secret-salt=""
+
+
