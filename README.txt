@@ -100,6 +100,4 @@ secret-salt
 	- the salt used to verify commands.
 	- THIS SHOULD BE SECURELY RANDOM AND HAVE AT LEAST 256 BITS OF ENTROPY!!
 
-""
-
 
