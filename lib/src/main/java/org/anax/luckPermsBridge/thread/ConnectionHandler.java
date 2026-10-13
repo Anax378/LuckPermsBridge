@@ -56,6 +56,9 @@ public class ConnectionHandler{
 		} catch (CommandException e) {
 			response = Response.COMMAND_ERROR;
 			logger.warn(e.toString());
+		} catch (Throwable t){
+			response = Response.INTERNAL_SERVER_ERROR;
+			logger.warn(t.toString());
 		}
 		finally{
 			try{

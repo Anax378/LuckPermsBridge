@@ -29,7 +29,7 @@ public class LuckPermsVelocityController implements IServerController{
 
 	@Override
 	public void setPlayerRole(String role, UUID uuid) throws CommandException {
-		getUser(uuid).thenAccept(user -> {
+		getUser(uuid).thenAcceptAsync(user -> {
 			user.data().clear(NodeType.INHERITANCE::matches);
 			user.data().add(Node.builder(role).build());
 			lp.getUserManager().saveUser(user);
@@ -38,7 +38,7 @@ public class LuckPermsVelocityController implements IServerController{
 
 	@Override
 	public void addPlayerRole(String role, UUID uuid) throws CommandException {
-		getUser(uuid).thenAccept(user -> {
+		getUser(uuid).thenAcceptAsync(user -> {
 			user.data().add(Node.builder(role).build());
 			lp.getUserManager().saveUser(user);
 		});
@@ -46,7 +46,7 @@ public class LuckPermsVelocityController implements IServerController{
 
 	@Override
 	public void removePlayerRole(String role, UUID uuid) throws CommandException {
-		getUser(uuid).thenAccept(user -> {
+		getUser(uuid).thenAcceptAsync(user -> {
 			user.data().remove(Node.builder(role).build());
 			lp.getUserManager().saveUser(user);
 		});
@@ -63,17 +63,29 @@ public class LuckPermsVelocityController implements IServerController{
 		if(mplayer.isEmpty()){
 			throw new CommandException("player with uuid "+uuid.toString()+" is not online");
 		}
-		for(RegisteredServer rs : proxy.getAllServers()){
-			if(rs.getServerInfo().getName().equals(server)){
-				mplayer.get().transferToHost(rs.getServerInfo().getAddress());
-			}
-		}
-		throw new CommandException("no server with name"+server+" is registered");
+		movePlayer(mplayer.get(), server);
+		throw new CommandException("no server with name "+server+" is registered");
 	}
 
 	@Override
 	public void moveUsernamePlayerToServer(String server, String username) throws CommandException {
-		throw new UnsupportedOperationException("Unimplemented method 'moveUsernamePlayerToServer'");
+		Optional<Player> mplayer = proxy.getPlayer(username);
+		if(mplayer.isEmpty()){
+			throw new CommandException("player with username "+username+" is not online");
+		}
+		movePlayer(mplayer.get(), server);
 	}
+
+	private void movePlayer(Player player, String server) throws CommandException {
+		for(RegisteredServer rs : proxy.getAllServers()){
+			if(rs.getServerInfo().getName().equals(server)){
+				player.transferToHost(rs.getServerInfo().getAddress());
+				break;
+			}
+		}
+		throw new CommandException("no server with name "+server+" is registered");
+
+	}
+
 }
 

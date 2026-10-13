@@ -11,7 +11,9 @@ public enum Response{
 	COMMAND_ERROR("ERR-CMD"),
 	TOO_OLD_ERROR("ERR-OLD"),
 	INVALID_HASH_ERROR("ERR-HASH"),
-	TIMEOUT_ERROR("ERR-TIME");
+	TIMEOUT_ERROR("ERR-TIME"),
+	INTERNAL_SERVER_ERROR("ERR-SRV"),
+		;
 
 	public final String response;
 
