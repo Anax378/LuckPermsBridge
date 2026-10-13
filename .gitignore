@@ -4,15 +4,15 @@
 # Ignore Gradle build output directory
 build
 out/
-lib/bin
-lib/build
+luckperms-bridge/bin
+luckperms-bridge/build
 
 *.class
 .settings
-lib/.settings
-lib/.classpath
-lib/.project
-lib/.factorypath
+luckperms-bridge/.settings
+luckperms-bridge/.classpath
+luckperms-bridge/.project
+luckperms-bridge/.factorypath
 
 .project
 
