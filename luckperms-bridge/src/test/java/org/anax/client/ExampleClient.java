@@ -64,6 +64,7 @@ public class ExampleClient {
 				break;
 			}
 		}
+		socket.close();
 		return sb.toString();
 	}
 }

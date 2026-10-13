@@ -8,7 +8,7 @@ ACTIONS:
 
 format:
 
-[SHA256] [TIMESTAMP] [ACTION] [ARG 1] [ARG 2] ... [ARG N];
+[HASH] [TIMESTAMP] [ACTION] [ARG 1] [ARG 2] ... [ARG N];
 
 
 
