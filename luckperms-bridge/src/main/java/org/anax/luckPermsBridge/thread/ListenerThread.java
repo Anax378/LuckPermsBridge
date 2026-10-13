@@ -8,7 +8,7 @@ import org.anax.luckPermsBridge.config.Config;
 import org.slf4j.Logger;
 
 public class ListenerThread extends Thread{
-	volatile boolean isRunning;
+	volatile boolean isRunning = true;
 	ServerSocket serverSocket;
 	CommandHandler commandHandler;
 	Config config;
