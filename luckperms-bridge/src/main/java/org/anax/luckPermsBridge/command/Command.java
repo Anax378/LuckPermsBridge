@@ -36,7 +36,7 @@ public record Command(
 	}
 
 	public boolean validateAge(Long timeout){
-		return (timestamp - timeout) < System.currentTimeMillis();
+		return (timestamp + timeout) > System.currentTimeMillis();
 	}
 
 	@Override

@@ -28,17 +28,26 @@ public class ListenerThread extends Thread{
 		this.pool = new ThreadPool(config.getMaxWorkers());
 	}
 
+	public void shutdown(){
+		this.isRunning = false;
+	}
+
 	@Override
 	public void run(){
-		isRunning = true;
-		while(isRunning){
+		while(isRunning && serverSocket != null && !serverSocket.isClosed()){
 			try{
 				Socket socket = serverSocket.accept();
+				socket.setSoTimeout(config.getSocketTimeout());
 				ConnectionHandler handler = new ConnectionHandler(socket, config, commandHandler, logger);
 				pool.enqueue(handler::handle);
 			}catch(IOException e){
-
+				logger.warn("error while accepting socket", e);
 			}
+		}
+		try{
+			serverSocket.close();
+		}catch(IOException e){
+			logger.warn("could not close serverSocket", e);
 		}
 	}
 

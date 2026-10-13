@@ -1,15 +1,18 @@
 # Luck Perms Bridge config
 
 # port for TCP
-port=
+port=25585
 # maximum bytes the parser will parse
 max-request-length=1056784
 max-workers=10
 # in milliseconds
 max-request-age=300000
 
+# how long to wait for the next byte (in milliseconds)
+socket-timeout=5000
+
 # this should be a hex string at least 256 bits (64 hex characters) long and securely random !!!
 # (you can use any string, but it should have enough entropy)
-secret-salt=
+secret-salt="{GENERATED}"
 
 

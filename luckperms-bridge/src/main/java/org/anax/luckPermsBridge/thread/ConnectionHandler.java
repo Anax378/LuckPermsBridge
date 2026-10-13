@@ -3,6 +3,7 @@ package org.anax.luckPermsBridge.thread;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 import org.anax.luckPermsBridge.command.CommandException;
 import org.anax.luckPermsBridge.command.Command;
@@ -40,6 +41,9 @@ public class ConnectionHandler{
 			}
 			handler.handle(command);
 
+		} catch (SocketTimeoutException e){
+			logger.info(e.toString());
+			response = Response.TIMEOUT_ERROR;
 		} catch(IOException e){
 			logger.warn(e.toString());
 		} catch (CommandParsingException e) {

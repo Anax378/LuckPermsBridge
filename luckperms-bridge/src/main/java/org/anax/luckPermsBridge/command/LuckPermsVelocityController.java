@@ -67,7 +67,6 @@ public class LuckPermsVelocityController implements IServerController{
 			throw new CommandException("player with uuid "+uuid.toString()+" is not online");
 		}
 		movePlayer(mplayer.get(), server);
-		throw new CommandException("no server with name "+server+" is registered");
 	}
 
 	@Override
