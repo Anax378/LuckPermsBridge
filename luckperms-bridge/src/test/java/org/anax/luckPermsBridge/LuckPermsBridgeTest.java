@@ -1,5 +1,6 @@
 package org.anax.luckPermsBridge;
 
+import org.anax.client.ExampleClient;
 import org.anax.luckPermsBridge.command.Command;
 import org.anax.luckPermsBridge.command.CommandHandler;
 import org.anax.luckPermsBridge.command.TestServerController;
@@ -20,7 +21,6 @@ import java.nio.charset.StandardCharsets;
 public class LuckPermsBridgeTest {
 	@Test
 	public void TestParseCommand(){
-		System.out.println("test");
 		String input = "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08 42 TEST arg1 arg2 arg3;";
 		InputStream is = new ByteArrayInputStream(input.getBytes(StandardCharsets.US_ASCII));
 		try{
@@ -32,7 +32,7 @@ public class LuckPermsBridgeTest {
 	}
 
 	@Test
-	public void TestHandler(){
+	public void testHandler(){
 		ByteArrayOutputStream os = new ByteArrayOutputStream();
 		Socket sock = createTestSocket("bad", os);
 		Config config = new Config(0, 1028*1028, 10, 10000, "secret");

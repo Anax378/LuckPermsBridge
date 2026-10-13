@@ -4,6 +4,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import javax.swing.text.html.Option;
+
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import com.velocitypowered.api.proxy.server.RegisteredServer;
@@ -13,6 +15,7 @@ import net.luckperms.api.model.data.DataMutateResult;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
 import net.luckperms.api.node.NodeType;
+import net.luckperms.api.node.types.InheritanceNode;
 
 public class LuckPermsVelocityController implements IServerController{
 	LuckPerms lp;
@@ -31,7 +34,7 @@ public class LuckPermsVelocityController implements IServerController{
 	public void setPlayerRole(String role, UUID uuid) throws CommandException {
 		getUser(uuid).thenAcceptAsync(user -> {
 			user.data().clear(NodeType.INHERITANCE::matches);
-			user.data().add(Node.builder(role).build());
+			user.data().add(InheritanceNode.builder(role).build());
 			lp.getUserManager().saveUser(user);
 		});
 	}
@@ -39,7 +42,7 @@ public class LuckPermsVelocityController implements IServerController{
 	@Override
 	public void addPlayerRole(String role, UUID uuid) throws CommandException {
 		getUser(uuid).thenAcceptAsync(user -> {
-			user.data().add(Node.builder(role).build());
+			user.data().add(InheritanceNode.builder(role).build());
 			lp.getUserManager().saveUser(user);
 		});
 	}
@@ -47,14 +50,14 @@ public class LuckPermsVelocityController implements IServerController{
 	@Override
 	public void removePlayerRole(String role, UUID uuid) throws CommandException {
 		getUser(uuid).thenAcceptAsync(user -> {
-			user.data().remove(Node.builder(role).build());
+			user.data().remove(InheritanceNode.builder(role).build());
 			lp.getUserManager().saveUser(user);
 		});
 	}
 
 	@Override
 	public void setPlayerRoleToDefault(UUID uuid) throws CommandException {
-		setPlayerRole("deffault", uuid);
+		setPlayerRole("default", uuid);
 	}
 
 	@Override
@@ -77,14 +80,11 @@ public class LuckPermsVelocityController implements IServerController{
 	}
 
 	private void movePlayer(Player player, String server) throws CommandException {
-		for(RegisteredServer rs : proxy.getAllServers()){
-			if(rs.getServerInfo().getName().equals(server)){
-				player.transferToHost(rs.getServerInfo().getAddress());
-				break;
-			}
+		Optional<RegisteredServer> ms = proxy.getServer(server);
+		if(ms.isEmpty()){
+			throw new CommandException("no server with name "+server+" is registered");
 		}
-		throw new CommandException("no server with name "+server+" is registered");
-
+		player.createConnectionRequest(ms.get()).connect();
 	}
 
 }

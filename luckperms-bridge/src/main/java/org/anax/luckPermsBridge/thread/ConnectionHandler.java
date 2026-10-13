@@ -45,14 +45,18 @@ public class ConnectionHandler{
 		} catch (CommandParsingException e) {
 			if(e instanceof CommandParsingTooLongException){
 				response = Response.TOO_LONG_ERROR;
+				logger.info(e.toString());
 			}else{
 				response = Response.SYNTAX_ERROR;
+				logger.info(e.toString());
 			}
 			logger.warn(e.toString());
 		} catch (CommandTooOldException e) {
 			response = Response.TOO_OLD_ERROR;
+			logger.info(e.toString());
 		} catch (InvalidHashException e) {
 			response = Response.INVALID_HASH_ERROR;
+			logger.info(e.toString());
 		} catch (CommandException e) {
 			response = Response.COMMAND_ERROR;
 			logger.warn(e.toString());

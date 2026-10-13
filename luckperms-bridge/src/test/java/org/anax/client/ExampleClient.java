@@ -15,10 +15,26 @@ public class ExampleClient {
 	int port;
 	String secretHash;
 
-	ExampleClient(String host, int port, String secretHash){
+	public ExampleClient(String host, int port, String secretHash){
 		this.host = host;
 		this.port = port;
 		this.secretHash = secretHash;
+	}
+
+	public String setRole(String role, String uuid) throws UnknownHostException, NoSuchAlgorithmException, IOException{
+		return sendCommand("SET-ROLE "+role+" "+uuid+";");
+	}
+	public String addRole(String role, String uuid) throws UnknownHostException, NoSuchAlgorithmException, IOException{
+		return sendCommand("ADD-ROLE "+role+" "+uuid+";");
+	}
+	public String setDefaultRole(String uuid) throws UnknownHostException, NoSuchAlgorithmException, IOException{
+		return sendCommand("SET-DEF-ROLE "+uuid+";");
+	}
+	public String movePlayerName(String player, String server) throws UnknownHostException, NoSuchAlgorithmException, IOException{
+		return sendCommand("MOVE-PLAYER-NAME "+server+" "+player+";");
+	}
+	public String movePlayerUUID(String uuid, String server) throws UnknownHostException, NoSuchAlgorithmException, IOException{
+		return sendCommand("MOVE-PLAYER-UUID "+server+" "+uuid+";");
 	}
 
 	public String sendCommand(String command) throws UnknownHostException, IOException, NoSuchAlgorithmException{
@@ -28,6 +44,8 @@ public class ExampleClient {
 		digest.update(timestamp.getBytes(StandardCharsets.US_ASCII));
 		digest.update((byte)' ');
 		digest.update(command.getBytes(StandardCharsets.US_ASCII));
+		digest.update(secretHash.getBytes(StandardCharsets.US_ASCII));
+
 		OutputStream os = socket.getOutputStream();
 		os.write(HexFormat.of().formatHex(digest.digest()).getBytes(StandardCharsets.US_ASCII));
 		os.write((byte)' ');

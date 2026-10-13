@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 import org.spongepowered.configurate.CommentedConfigurationNode;
 import org.spongepowered.configurate.loader.ConfigurationLoader;
@@ -65,7 +66,10 @@ public class Config{
 		}
 		TomlParseResult result = Toml.parse(configPath);
 		if(!result.errors().isEmpty()){
-			throw new ConfigParsingException("config file contains errors");
+			String errors = result.errors().stream()
+				.map(Object::toString)
+				.collect(Collectors.joining("\n - ", " - ", ""));
+			throw new ConfigParsingException("config file contains errors: " + errors);
 		}
 		ensureContains(result, "port");
 		ensureContains(result, "max-request-length");

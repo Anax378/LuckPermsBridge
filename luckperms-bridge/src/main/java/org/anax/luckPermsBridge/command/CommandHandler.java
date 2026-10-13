@@ -38,8 +38,9 @@ public class CommandHandler{
 			validateArgsLen(1, command);
 			UUID uuid = parseUUID(command.args()[0]);
 			controller.setPlayerRoleToDefault(uuid);
+		}else{
+			throw new CommandException("unknown action: " + command.action());
 		}
-		throw new CommandException("unknown action: " + command.action());
 	}
 
 	private void validateArgsLen(int len, Command command) throws CommandException{

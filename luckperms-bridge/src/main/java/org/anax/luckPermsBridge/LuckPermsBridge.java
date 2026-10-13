@@ -59,6 +59,7 @@ public class LuckPermsBridge{
 		}catch(IOException e){
 			throw new RuntimeException(e);
 		}
+		logger.info("loaded successfully");
 	}
 
 	@Subscribe
@@ -67,6 +68,7 @@ public class LuckPermsBridge{
 		CommandHandler handler = new CommandHandler(controller);
 		this.lthread = new ListenerThread(socket, handler, config, logger);
 		this.lthread.start();
+		logger.info("ListenerThread started");
 	}
 }
 
