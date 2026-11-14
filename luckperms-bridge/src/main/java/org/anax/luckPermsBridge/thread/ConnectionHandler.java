@@ -10,6 +10,7 @@ import org.anax.luckPermsBridge.command.Command;
 import org.anax.luckPermsBridge.command.CommandHandler;
 import org.anax.luckPermsBridge.config.Config;
 import org.anax.luckPermsBridge.protocol.Response;
+import org.anax.luckPermsBridge.protocol.Response.ResponseType;
 import org.anax.luckPermsBridge.protocol.parser.CommandParser;
 import org.anax.luckPermsBridge.protocol.parser.CommandParsingException;
 import org.anax.luckPermsBridge.protocol.parser.CommandParsingTooLongException;
@@ -29,7 +30,7 @@ public class ConnectionHandler{
 	}
 
 	public void handle(){
-		Response response = Response.OK;
+		Response response = new Response(ResponseType.INTERNAL_SERVER_ERROR);
 		try{
 			InputStream is = socket.getInputStream();
 			Command command = CommandParser.parse(is, config.getMaxRequestLength());
@@ -39,33 +40,33 @@ public class ConnectionHandler{
 			if(!command.validateHash(config.getSecretSalt())){
 				throw new InvalidHashException();
 			}
-			handler.handle(command);
+			response = new Response(ResponseType.OK, handler.handle(command));
 
 		} catch (SocketTimeoutException e){
 			logger.info(e.toString());
-			response = Response.TIMEOUT_ERROR;
+			response = new Response(ResponseType.TIMEOUT_ERROR);
 		} catch(IOException e){
 			logger.warn(e.toString());
 		} catch (CommandParsingException e) {
 			if(e instanceof CommandParsingTooLongException){
-				response = Response.TOO_LONG_ERROR;
+				response = new Response(ResponseType.TOO_LONG_ERROR);
 				logger.info(e.toString());
 			}else{
-				response = Response.SYNTAX_ERROR;
+				response = new Response(ResponseType.SYNTAX_ERROR);
 				logger.info(e.toString());
 			}
 			logger.warn(e.toString());
 		} catch (CommandTooOldException e) {
-			response = Response.TOO_OLD_ERROR;
+			response = new Response(ResponseType.TOO_OLD_ERROR);
 			logger.info(e.toString());
 		} catch (InvalidHashException e) {
-			response = Response.INVALID_HASH_ERROR;
+			response = new Response(ResponseType.INVALID_HASH_ERROR);
 			logger.info(e.toString());
 		} catch (CommandException e) {
-			response = Response.COMMAND_ERROR;
+			response = new Response(ResponseType.COMMAND_ERROR);
 			logger.warn(e.toString());
 		} catch (Throwable t){
-			response = Response.INTERNAL_SERVER_ERROR;
+			response = new Response(ResponseType.INTERNAL_SERVER_ERROR);
 			logger.warn(t.toString());
 		}
 		finally{

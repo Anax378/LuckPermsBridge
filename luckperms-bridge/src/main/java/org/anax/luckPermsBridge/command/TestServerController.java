@@ -34,5 +34,14 @@ public class TestServerController implements IServerController{
 		System.out.println("*setting role of player with uuid "+uuid.toString()+" to the default");
 	}
 
+	@Override
+	public boolean hasRole(String role, UUID uuid) throws CommandException {
+		if(role.equals("default")){
+			return true;
+		}
+		return false;
+	}
+
+
 }
 

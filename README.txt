@@ -11,6 +11,8 @@ Each command has to be sent on a separate connection;
 A command (sent raw over TCP) consists of several space-separated words:
 [HASH] [TIMESTAMP] [ACTION] [ARG 1] [ARG 2] ... [ARG N];
 
+A word can be any arbitrary string that does not contain a semicolon nor a space character.
+
 == HASH == 
 
 The hash must use SHA256.
@@ -34,6 +36,9 @@ Possible actions and their arguments are:
 
 SET-ROLE <role> <uuid>
 ADD-ROLE <role> <uuid>
+REM-ROLE <role> <uuid>
+HAS-ROLE <role> <uuid>
+	- upon success the result will be "TRUE" or "FALSE"
 SET-DEF-ROLE <uuid>
 	- equivalent to SET-ROLE default <uuid>
 
@@ -61,7 +66,15 @@ examples: "8859ad3d-67f7-42dc-803f-cd801833348d",
 
 == Response ==
 The bridge will respond with a reponse.
-A response is a single word followed by a semicolon.
+
+A response contains a status
+A response might or might not contain a result.
+A result can be any string that does not contain a semicolon.
+
+The status is a word.
+
+A response without a result is the status followed by a semicolon.
+A response with a result is the status followed by a space character followed by the result followed by a semicolon.
 
 possible responses are:
 OK
@@ -80,7 +93,7 @@ ERR-TIME
 ERR-SRV
 	- internal server error (there was an unexpected exception)
 
-examples: "OK;", "ERR-SYN;"
+examples: "OK;", "ERR-SYN;", "OK TRUE;", "OK FALSE;"
 
 == Configuration ==
 

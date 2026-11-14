@@ -9,6 +9,7 @@ public interface IServerController {
 	public void setPlayerRoleToDefault(UUID uuid) throws CommandException;
 	public void moveUUIDPlayerToServer(String server, UUID uuid) throws CommandException;
 	public void moveUsernamePlayerToServer(String server, String username) throws CommandException;
+	public boolean hasRole(String role, UUID uuid) throws CommandException;
 }
 
 

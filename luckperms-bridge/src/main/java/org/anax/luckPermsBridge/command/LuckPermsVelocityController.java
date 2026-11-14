@@ -60,6 +60,15 @@ public class LuckPermsVelocityController implements IServerController{
 		setPlayerRole("default", uuid);
 	}
 
+	//blocks
+	@Override
+	public boolean hasRole(String role, UUID uuid) throws CommandException {
+		User user = getUser(uuid).join();
+		return user.getInheritedGroups(user.getQueryOptions())
+			.stream()
+			.anyMatch(g -> g.getName().equals(role));
+	}
+
 	@Override
 	public void moveUUIDPlayerToServer(String server, UUID uuid) throws CommandException {
 		Optional<Player> mplayer = proxy.getPlayer(uuid);
@@ -85,6 +94,7 @@ public class LuckPermsVelocityController implements IServerController{
 		}
 		player.createConnectionRequest(ms.get()).connect();
 	}
+
 
 }
 
